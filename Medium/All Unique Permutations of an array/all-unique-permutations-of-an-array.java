@@ -35,46 +35,36 @@ class GFG {
 // } Driver Code Ends
 
 
+
+
 //User function Template for Java
 
 class Solution {
-    static int compareLists(ArrayList<Integer> list1, ArrayList<Integer> list2) {
-        // Compare the lists based on their elements
-        int size = Math.min(list1.size(), list2.size());
-        for (int i = 0; i < size; i++) {
-            int compareResult = Integer.compare(list1.get(i), list2.get(i));
-            if (compareResult != 0) {
-                return compareResult;
-            }
-        }
-        return Integer.compare(list1.size(), list2.size());
-    }
-    static void findPerms(ArrayList<Integer> arr , HashSet<ArrayList<Integer>> set, ArrayList<Integer> curr, boolean[] vis) {
-        if(curr.size()==arr.size()) {
-            set.add(new ArrayList<>(curr));
-            return;
-        }
-        for(int i=0; i<arr.size(); i++) {
-            if(vis[i]) continue;
-            curr.add(arr.get(i));
-            vis[i]=true;
-            findPerms(arr, set, curr, vis);
-            vis[i]=false;
-            curr.remove(curr.size()-1);
-        }
-    }
     static ArrayList<ArrayList<Integer>> uniquePerms(ArrayList<Integer> arr , int n) {
-        // code here
-        HashSet<ArrayList<Integer>> set = new HashSet<>();
-        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        boolean vis[] = new boolean[n];
-        findPerms(arr, set, new ArrayList<>(), vis);
-        ans.addAll(set);
-        Collections.sort(ans, new Comparator<ArrayList<Integer>>() {
-            public int compare(ArrayList<Integer> list1, ArrayList<Integer> list2) {
-                return compareLists(list1, list2);
+        Set<ArrayList<Integer>> uniquePermsSet = new HashSet<>();
+        permute(arr, 0, n, uniquePermsSet);
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>(uniquePermsSet);
+        Collections.sort(result, new Comparator<ArrayList<Integer>>() {
+            public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
+                for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
+                    int cmp = Integer.compare(o1.get(i), o2.get(i));
+                    if (cmp != 0) return cmp;
+                }
+                return Integer.compare(o1.size(), o2.size());
             }
         });
-        return ans;
+        return result;
+    }
+
+    private static void permute(ArrayList<Integer> arr, int index, int n, Set<ArrayList<Integer>> set) {
+        if (index == n) {
+            set.add(new ArrayList<>(arr));
+            return;
+        }
+        for (int i = index; i < n; i++) {
+            Collections.swap(arr, i, index);
+            permute(arr, index + 1, n, set);
+            Collections.swap(arr, i, index);
+        }
     }
 };
