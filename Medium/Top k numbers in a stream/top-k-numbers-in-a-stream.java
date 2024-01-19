@@ -93,26 +93,15 @@ class GFG {
 
 // } Driver Code Ends
 
-class Pair{
-    int value, freq;
-    Pair(int value, int freq) {
-        this.value = value;
-        this.freq = freq;
-    }
-}
 class Solution {
     public static ArrayList<ArrayList<Integer>> kTop(int[] arr, int N, int K) {
         // code here
         HashMap<Integer, Integer> map = new HashMap<>();
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        PriorityQueue<Map.Entry<Integer, Integer>> temp = new PriorityQueue<>();
+        PriorityQueue<Map.Entry<Integer, Integer>> q=new PriorityQueue<>((a,b)->a.getValue()==b.getValue()?a.getKey()-b.getKey():b.getValue()-a.getValue());
         for(int i=0; i<N; i++) ans.add(new ArrayList<>());
         for(int i=0; i<N; i++) {
             map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
-            PriorityQueue<Map.Entry<Integer, Integer>> q=new PriorityQueue<>((a,b)->{
-                if(a.getValue()==b.getValue()) return a.getKey()-b.getKey();
-                else return b.getValue()-a.getValue();
-            });//a.getValue==b.getValue?a.getKey-b.getKey:a.getValue-b.getValue);
             q.addAll(map.entrySet());
             int t=K;
             while(!q.isEmpty() && t>0) {
