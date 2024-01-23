@@ -81,7 +81,7 @@ class Solution
             adj.get(u).add(v);
         }
         boolean vis[] = new boolean[n];
-        int ans[] = new int[n], idx = 0;
+        ArrayList<Integer> ans = new ArrayList<>();
         Queue<Integer> q = new LinkedList<>();
         for(int i=0; i<n; i++) {
             if(deg[i] == 0) {
@@ -89,11 +89,14 @@ class Solution
                 vis[i] = true;
             }
         }
+        //System.out.println(adj);
+        //System.out.println(Arrays.toString(deg));
         while(!q.isEmpty()) {
+            //System.out.println("q "+q);
             int size = q.size();
             for(int i=0; i<size; i++) {
                 int node = q.poll();
-                ans[idx++] = node;
+                ans.add(node);
                 for(int d:adj.get(node)) {
                     deg[d]--;
                     if(!vis[d] && deg[d]==0) {
@@ -103,7 +106,12 @@ class Solution
                 }
             }
         }
-        if(idx==n) return ans;
+        //System.out.println(ans);
+        if(ans.size()==n) {
+            int[] res=new int[n];
+            for(int i=0; i<n; i++) res[i] = ans.get(i);
+            return res;
+        }
         return new int[]{};
     }
 }
