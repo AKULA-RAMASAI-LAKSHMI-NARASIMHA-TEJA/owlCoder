@@ -145,8 +145,7 @@ class Solution
     public static int isSumProperty(Node root)
     {
         // add your code here
-        if(dfs(root)) return 1;
-        return 0;
+        return dfs(root)?1:0;
         
     }
 }
