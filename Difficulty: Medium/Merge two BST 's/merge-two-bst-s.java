@@ -108,20 +108,24 @@ class Node
 
 */
 class Solution {
-    public void add(Node root, List<Integer> ans) {
-        if(root == null) return;
-        ans.add(root.data);
-        add(root.right, ans);
-        add(root.left, ans);
-    }
     // Function to return a list of integers denoting the node
     // values of both the BST in a sorted order.
     public List<Integer> merge(Node root1, Node root2) {
         // Write your code here
-        List<Integer> ans = new ArrayList<>();
-        add(root1, ans);
-        add(root2, ans);
-        Collections.sort(ans);
-        return ans;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        trace(root1,list);
+        trace(root2,list);
+        Collections.sort(list);
+        return list;
+        
+    }
+    
+    public void trace(Node root, ArrayList<Integer> list){
+        if(root!=null)
+        list.add(root.data);
+        if(root.left!=null)
+        trace(root.left,list);
+        if(root.right!=null)
+        trace(root.right,list);
     }
 }
